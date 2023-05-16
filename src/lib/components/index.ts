@@ -5,3 +5,6 @@ export * from './card';
 export { default as Heading } from './heading.svelte';
 export * from './input';
 export { default as RedBall } from './red_ball.svelte';
+
+export * from './stepper';
+export * from './icon';
