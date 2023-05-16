@@ -1,1 +1,1 @@
-export { default as Checkmark } from './checkmark.svelte'
+export { default as Checkmark } from './checkmark.svelte';
