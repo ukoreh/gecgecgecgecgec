@@ -8,3 +8,5 @@ export { default as RedBall } from './red_ball.svelte';
 
 export * from './stepper';
 export * from './icon';
+
+export * from './link';
