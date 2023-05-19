@@ -1,7 +1,7 @@
 import type { WorkflowJob, WorkflowRunId } from '@models';
 import { createStore, type Store } from './store';
 import { FakeWorkflowsImpl, type Workflows } from '@http';
-import { State, from, type TypedState } from './state';
+import { State, from } from './state';
 
 export const WorkflowJobStore = createWorkflowJobStore();
 
