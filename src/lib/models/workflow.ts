@@ -1,3 +1,5 @@
+export type WorkflowRunId = number;
+
 export interface WorkflowJob {
 	run_url: string;
 	name: string;
