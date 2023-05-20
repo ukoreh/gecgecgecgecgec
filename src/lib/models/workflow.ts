@@ -1,5 +1,10 @@
 export type WorkflowRunId = number;
 
+export interface WorkflowInit {
+	runId: WorkflowRunId,
+	deployUrl: URL
+};
+
 export interface WorkflowJob {
 	run_url: string;
 	name: string;
@@ -15,6 +20,7 @@ export interface WorkflowJobStep {
 	completed_at: string;
 }
 
+// todo: passar para metodos da interface e depois adicionar funcao que cria essa interface com um json
 export function isRunning(step: WorkflowJobStep) {
 	return step.status === 'in_progress';
 }
