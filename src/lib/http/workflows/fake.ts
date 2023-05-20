@@ -64,8 +64,6 @@ export class FakeWorkflowsImpl implements Workflows {
 			this.job.steps[nextJobIndex].status = 'in_progress';
 		}
 
-		console.log(this.job.steps);
-
 		lastRunning.status = 'completed';
 
 		return Promise.resolve(this.job);

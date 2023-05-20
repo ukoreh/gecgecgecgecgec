@@ -22,3 +22,7 @@ export function isRunning(step: WorkflowJobStep) {
 export function hasFinished(step: WorkflowJobStep) {
 	return step.status === 'completed';
 }
+
+export function hasJobCompleted(job: WorkflowJob) {
+	return job.steps[job.steps.length - 1].status === 'completed';
+}
