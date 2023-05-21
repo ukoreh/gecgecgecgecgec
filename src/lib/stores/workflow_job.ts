@@ -3,10 +3,10 @@ import {
 	type RepoUrl,
 	type WorkflowInit,
 	type WorkflowJob,
-	type WorkflowRunId
+	type WorkflowRunUrl
 } from '@models';
 import { createStore, type Store } from './store';
-import { FakeWorkflowsImpl, type Workflows } from '@http';
+import { FoldClient, FolderWorkflowsImpl, type Workflows } from '@http';
 import { State, from } from './state';
 
 export const WorkflowJobStore = createWorkflowJobStore();
@@ -17,7 +17,7 @@ function createWorkflowJobStore() {
 	const store = createStore<WorkflowState>();
 	const subscribe = store.subscribe;
 
-	const workflows = new FakeWorkflowsImpl();
+	const workflows = new FolderWorkflowsImpl(new FoldClient());
 
 	return {
 		subscribe,
@@ -34,7 +34,7 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 		return store.set(state);
 	}
 
-	const job = await workflows.status(init.runId);
+	const job = await workflows.status(init.runUrl);
 
 	if (job instanceof Response) {
 		const state = from(<WorkflowState>{}, State.failure);
@@ -42,7 +42,7 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 		return store.set(state);
 	}
 
-	setInterval(() => updateJobState(init.runId, workflows, store), 3000);
+	setInterval(() => updateJobState(init.runUrl, workflows, store), 6000);
 
 	const state = from(<WorkflowState>{ ...job, ...init }, State.loading);
 
@@ -50,7 +50,7 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 }
 
 async function updateJobState(
-	id: WorkflowRunId,
+	id: WorkflowRunUrl,
 	workflows: Workflows,
 	store: Store<WorkflowState>
 ) {
