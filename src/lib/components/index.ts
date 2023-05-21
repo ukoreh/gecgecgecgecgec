@@ -11,3 +11,5 @@ export * from './icon';
 
 export * from './link';
 export * from './button';
+export * from './transition';
+export * from './image';
