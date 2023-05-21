@@ -14,3 +14,4 @@ export * from './button';
 export * from './transition';
 export * from './image';
 export * from './animation';
+export * from './divider';
