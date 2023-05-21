@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		AnimatedPointRight,
 		DeployLink,
 		DropInput,
 		IntroTransition,
@@ -50,13 +51,21 @@
 			<h1 class="pt-6 text-4xl text-center">{$LL.title()}</h1>
 			<h2 class="pt-2 text-1xl text-center">{$LL.description()}</h2>
 
-			<form class="px-8 pt-4" on:submit|preventDefault={triggerWorkflow} action=".">
+			<form
+				class="px-8 pt-4 flex flex-row items-center justify-between"
+				on:submit|preventDefault={triggerWorkflow}
+				action="."
+			>
+				<AnimatedPointRight />
 				<DropInput bind:value={repoUrl} />
 			</form>
 
 			<div class="flex flex-col items-center">
 				{#if hasRepoUrlChanged}
-					<TriggerDeployButton onClick={triggerWorkflow} />
+					<div class="flex flex-row items-center">
+						<AnimatedPointRight />
+						<TriggerDeployButton onClick={triggerWorkflow} />
+					</div>
 				{/if}
 				{#if $store.loading || $store.success}
 					<WorkflowJobStatusStepper steps={$store.value.steps} />
