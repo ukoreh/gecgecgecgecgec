@@ -1,21 +1,49 @@
 <script lang="ts">
-	import { DeployLink, DropInput, WorkflowJobStatusStepper } from '@components';
-	import { hasJobCompleted } from '@models';
+	import {
+		DeployLink,
+		DropInput,
+		TriggerDeployButton,
+		WorkflowJobStatusStepper
+	} from '@components';
 	import { WorkflowJobStore } from '@stores';
 
 	const store = WorkflowJobStore;
 
-	store.observe(2);
+	let repoUrl: string;
+	let submittedRepoUrl: string;
+
+	let hasRepoUrlChanged = false;
+
+	$: {
+		if (repoUrl?.length === 0 || repoUrl === submittedRepoUrl) {
+			hasRepoUrlChanged = false;
+		} else {
+			hasRepoUrlChanged = true;
+		}
+	}
+
+	function triggerWorkflow() {
+		submittedRepoUrl = repoUrl;
+
+		const url = new URL(repoUrl);
+
+		store.trigger(url);
+	}
 </script>
 
-<DropInput />
+<form on:submit|preventDefault={triggerWorkflow} action=".">
+	<DropInput bind:value={repoUrl} />
+</form>
 
 <div class="flex flex-col items-center">
-	{#if $store.success}
+	{#if hasRepoUrlChanged}
+		<TriggerDeployButton onClick={triggerWorkflow} />
+	{/if}
+	{#if $store.loading || $store.success}
 		<WorkflowJobStatusStepper steps={$store.value.steps} />
 
-		{#if hasJobCompleted($store.value)}
-			<DeployLink url={new URL('http://localhost:5173/')} />
+		{#if $store.success}
+			<DeployLink url={$store.value.deployUrl} />
 		{/if}
 	{/if}
 </div>
