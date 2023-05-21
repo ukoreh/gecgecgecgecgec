@@ -49,7 +49,7 @@ export class FakeWorkflowsImpl implements Workflows {
 		]
 	};
 
-	trigger(url: URL): Promise<WorkflowInit | Response> {
+	trigger(url: RepoUrl): Promise<WorkflowInit | Response> {
 		console.info(`faking init of build workflow with url = ${url}`);
 
 		const init = <WorkflowInit>{

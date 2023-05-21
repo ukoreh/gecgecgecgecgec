@@ -1,4 +1,4 @@
-import { hasJobCompleted, type WorkflowInit, type WorkflowJob, type WorkflowRunId } from '@models';
+import { hasJobCompleted, type RepoUrl, type WorkflowInit, type WorkflowJob, type WorkflowRunId } from '@models';
 import { createStore, type Store } from './store';
 import { FakeWorkflowsImpl, type Workflows } from '@http';
 import { State, from } from './state';
@@ -15,11 +15,11 @@ function createWorkflowJobStore() {
 
 	return {
 		subscribe,
-		trigger: (url: URL) => triggerBuildJob(url, workflows, store)
+		trigger: (url: RepoUrl) => triggerBuildJob(url, workflows, store)
 	};
 }
 
-async function triggerBuildJob(url: URL, workflows: Workflows, store: Store<WorkflowState>) {
+async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<WorkflowState>) {
 	const init = await workflows.trigger(url);
 
 	if (init instanceof Response) {
