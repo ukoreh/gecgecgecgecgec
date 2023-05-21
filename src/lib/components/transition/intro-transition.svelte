@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
 	import { elasticOut } from 'svelte/easing';
 	import { UkorehWizardCat } from '../image';
 
 	export let onTransitionEnd: () => void;
 
-	let trigger: any;
+	let trigger: object;
 
 	onMount(() => (trigger = {}));
 
