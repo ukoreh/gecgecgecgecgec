@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		AnimatedPointRight,
 		DeployLink,
 		DropInput,
 		IntroTransition,
@@ -9,30 +10,30 @@
 	} from '@components';
 	import { WorkflowJobStore } from '@stores';
 	import { LL } from '@i18n';
+	import { type RepoUrl, createRepoUrl } from '@models';
 
 	const store = WorkflowJobStore;
 
 	let visibility = true;
 
-	let repoUrl: string;
-	let submittedRepoUrl: string;
+	let url: string;
 
-	let hasRepoUrlChanged = false;
+	$: repoUrl = createRepoUrl(url);
+
+	let shouldFocusDropInput = true;
+	let shouldFocusTriggerDeployButton = false;
 
 	$: {
-		if (repoUrl?.length === 0 || repoUrl === submittedRepoUrl) {
-			hasRepoUrlChanged = false;
-		} else {
-			hasRepoUrlChanged = true;
-		}
+		shouldFocusDropInput = !repoUrl;
+		shouldFocusTriggerDeployButton = !shouldFocusDropInput;
 	}
 
 	function triggerWorkflow() {
-		submittedRepoUrl = repoUrl;
+		if (repoUrl) {
+			shouldFocusTriggerDeployButton = false;
 
-		const url = new URL(repoUrl);
-
-		store.trigger(url);
+			store.trigger(repoUrl);
+		}
 	}
 
 	function onTransitionEnd() {
@@ -50,14 +51,25 @@
 			<h1 class="pt-6 text-4xl text-center">{$LL.title()}</h1>
 			<h2 class="pt-2 text-1xl text-center">{$LL.description()}</h2>
 
-			<form class="px-8 pt-4" on:submit|preventDefault={triggerWorkflow} action=".">
-				<DropInput bind:value={repoUrl} />
+			<form
+				class="px-8 pt-4 flex flex-row items-center justify-between"
+				on:submit|preventDefault={triggerWorkflow}
+				action="."
+			>
+				{#if shouldFocusDropInput}
+					<AnimatedPointRight />
+				{/if}
+				<DropInput bind:value={url} />
 			</form>
 
 			<div class="flex flex-col items-center">
-				{#if hasRepoUrlChanged}
+				<div class="flex flex-row items-center">
+					{#if shouldFocusTriggerDeployButton}
+						<AnimatedPointRight />
+					{/if}
+
 					<TriggerDeployButton onClick={triggerWorkflow} />
-				{/if}
+				</div>
 				{#if $store.loading || $store.success}
 					<WorkflowJobStatusStepper steps={$store.value.steps} />
 
