@@ -8,10 +8,11 @@
 		WorkflowJobStatusStepper
 	} from '@components';
 	import { WorkflowJobStore } from '@stores';
+	import { LL } from '@i18n';
 
 	const store = WorkflowJobStore;
 
-	let visibility = false;
+	let visibility = true;
 
 	let repoUrl: string;
 	let submittedRepoUrl: string;
@@ -46,7 +47,10 @@
 		</div>
 	{:else}
 		<div class="grow">
-			<form on:submit|preventDefault={triggerWorkflow} action=".">
+			<h1 class="pt-6 text-4xl text-center">{$LL.title()}</h1>
+			<h2 class="pt-2 text-1xl text-center">{$LL.description()}</h2>
+
+			<form class="px-8 pt-4" on:submit|preventDefault={triggerWorkflow} action=".">
 				<DropInput bind:value={repoUrl} />
 			</form>
 
