@@ -2,4 +2,4 @@
 	import { base } from '$app/paths';
 </script>
 
-<img src="{base}/png/cat.png" alt="wizard cat. it's a shame you can't see him! :(" />
+<img src="{base}/svg/cat.svg" alt="wizard cat. it's a shame you can't see him! :(" />
