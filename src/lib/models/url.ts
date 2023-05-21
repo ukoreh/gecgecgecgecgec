@@ -1,6 +1,10 @@
 export type RepoUrl = URL;
 
 export function createRepoUrl(url: string) {
+	if (!url) {
+		return;
+	}
+
 	try {
 		const parsedUrl = new URL(url);
 
