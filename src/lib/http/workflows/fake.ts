@@ -1,4 +1,10 @@
-import { isRunning, type WorkflowInit, type WorkflowJob, type WorkflowRunId } from '@models';
+import {
+	isRunning,
+	type RepoUrl,
+	type WorkflowInit,
+	type WorkflowJob,
+	type WorkflowRunUrl
+} from '@models';
 import type { Workflows } from './interface';
 
 export class FakeWorkflowsImpl implements Workflows {
@@ -53,7 +59,7 @@ export class FakeWorkflowsImpl implements Workflows {
 		console.info(`faking init of build workflow with url = ${url}`);
 
 		const init = <WorkflowInit>{
-			runId: 8317504,
+			runUrl: '',
 			deployUrl: new URL(
 				'https://expensive-garbage.github.io/flutter-extended-image-crop-info-callback-spike'
 			)
@@ -62,7 +68,7 @@ export class FakeWorkflowsImpl implements Workflows {
 		return Promise.resolve(init);
 	}
 
-	status(id: WorkflowRunId): Promise<WorkflowJob | Response> {
+	status(id: WorkflowRunUrl): Promise<WorkflowJob | Response> {
 		console.info(`faking completion of workflow with run id = ${id}`);
 
 		const lastRunning = this.job.steps.findLast((x) => isRunning(x));

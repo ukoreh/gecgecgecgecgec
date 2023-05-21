@@ -1,6 +1,6 @@
-import type { WorkflowInit, WorkflowJob, WorkflowRunId } from '@models';
+import type { RepoUrl, WorkflowInit, WorkflowJob, WorkflowRunUrl } from '@models';
 
 export interface Workflows {
 	trigger(url: RepoUrl): Promise<WorkflowInit | Response>;
-	status(id: WorkflowRunId): Promise<WorkflowJob | Response>;
+	status(id: WorkflowRunUrl): Promise<WorkflowJob | Response>;
 }
