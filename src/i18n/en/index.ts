@@ -1,9 +1,9 @@
 import type { BaseTranslation } from '../i18n-types';
 
 const en = {
-	// TODO: your translations go here
-	greetings:
-		'This project was generated with dart-pacotes/.bricks: https://github.com/dart-pacotes/.bricks/tree/master/aplicacao-web'
+	title: '🪄 Ukoreh 🪄',
+	description: 'Drop any Flutter project link and see the magic happen!',
+	deploy: 'Deploy'
 } satisfies BaseTranslation;
 
 export default en;
