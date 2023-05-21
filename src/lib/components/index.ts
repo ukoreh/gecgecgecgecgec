@@ -10,3 +10,4 @@ export * from './stepper';
 export * from './icon';
 
 export * from './link';
+export * from './button';
