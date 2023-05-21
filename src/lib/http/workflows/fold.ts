@@ -3,7 +3,7 @@ import type { Workflows } from './interface';
 import { repoUrlHeader, type FoldClient } from '../client';
 
 export class FolderWorkflowsImpl implements Workflows {
-	public constructor(private readonly workerClient: FoldClient) { }
+	public constructor(private readonly workerClient: FoldClient) {}
 
 	async trigger(url: RepoUrl): Promise<WorkflowInit | Response> {
 		console.info(`triggering deploy of repo with url = ${url}`);
