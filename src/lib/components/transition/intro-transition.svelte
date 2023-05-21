@@ -5,6 +5,8 @@
 	import { elasticOut } from 'svelte/easing';
 	import { UkorehWizardCat } from '../image';
 
+	export let onTransitionEnd: () => void;
+
 	let trigger: any;
 
 	onMount(() => (trigger = {}));
@@ -24,7 +26,7 @@
 
 {#key trigger}
 	<div class="flex justify-center">
-		<div in:spin>
+		<div in:spin on:introend={onTransitionEnd}>
 			<UkorehWizardCat />
 		</div>
 	</div>
