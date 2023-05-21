@@ -6,11 +6,12 @@
 		IntroTransition,
 		TriggerDeployButton,
 		UkorehWizardCat,
-		WorkflowJobStatusStepper
+		WorkflowJobStatusStepper,
+		WorkflowStatusDivider
 	} from '@components';
 	import { WorkflowJobStore } from '@stores';
 	import { LL } from '@i18n';
-	import { type RepoUrl, createRepoUrl } from '@models';
+	import { createRepoUrl } from '@models';
 
 	const store = WorkflowJobStore;
 
@@ -63,7 +64,7 @@
 			</form>
 
 			<div class="flex flex-col items-center">
-				<div class="flex flex-row items-center">
+				<div class="pt-4 flex flex-row items-center">
 					{#if shouldFocusTriggerDeployButton}
 						<AnimatedPointRight />
 					{/if}
@@ -71,7 +72,10 @@
 					<TriggerDeployButton onClick={triggerWorkflow} />
 				</div>
 				{#if $store.loading || $store.success}
-					<WorkflowJobStatusStepper steps={$store.value.steps} />
+					<div class="pt-4">
+						<WorkflowStatusDivider />
+						<WorkflowJobStatusStepper steps={$store.value.steps} />
+					</div>
 
 					{#if $store.success}
 						<DeployLink url={$store.value.deployUrl} />
