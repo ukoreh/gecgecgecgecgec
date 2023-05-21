@@ -13,3 +13,4 @@ export * from './link';
 export * from './button';
 export * from './transition';
 export * from './image';
+export * from './animation';
