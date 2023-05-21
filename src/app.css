@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Animated space background by wheresdara: https://codepen.io/wheresdara/pen/wvXBpwa */
 .night-background {
 	position: fixed;
