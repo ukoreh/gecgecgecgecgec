@@ -39,7 +39,7 @@
 	}
 </script>
 
-<div class="flex flex-col h-screen">
+<div class="cursor-wand flex flex-col h-screen">
 	{#if !visibility}
 		<div class="grow flex items-center self-center">
 			<IntroTransition {onTransitionEnd} />
