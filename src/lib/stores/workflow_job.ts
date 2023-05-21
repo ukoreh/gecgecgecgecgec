@@ -1,4 +1,10 @@
-import { hasJobCompleted, type RepoUrl, type WorkflowInit, type WorkflowJob, type WorkflowRunId } from '@models';
+import {
+	hasJobCompleted,
+	type RepoUrl,
+	type WorkflowInit,
+	type WorkflowJob,
+	type WorkflowRunId
+} from '@models';
 import { createStore, type Store } from './store';
 import { FakeWorkflowsImpl, type Workflows } from '@http';
 import { State, from } from './state';
