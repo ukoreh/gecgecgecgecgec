@@ -54,7 +54,9 @@ export class FakeWorkflowsImpl implements Workflows {
 
 		const init = <WorkflowInit>{
 			runId: 8317504,
-			deployUrl: new URL('https://expensive-garbage.github.io/flutter-extended-image-crop-info-callback-spike'),
+			deployUrl: new URL(
+				'https://expensive-garbage.github.io/flutter-extended-image-crop-info-callback-spike'
+			)
 		};
 
 		return Promise.resolve(init);

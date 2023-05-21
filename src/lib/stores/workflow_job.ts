@@ -15,7 +15,7 @@ function createWorkflowJobStore() {
 
 	return {
 		subscribe,
-		trigger: (url: URL) => triggerBuildJob(url, workflows, store),
+		trigger: (url: URL) => triggerBuildJob(url, workflows, store)
 	};
 }
 
@@ -40,10 +40,14 @@ async function triggerBuildJob(url: URL, workflows: Workflows, store: Store<Work
 
 	const state = from(<WorkflowState>{ ...job, ...init }, State.loading);
 
-	return store.set(state)
+	return store.set(state);
 }
 
-async function updateJobState(id: WorkflowRunId, workflows: Workflows, store: Store<WorkflowState>) {
+async function updateJobState(
+	id: WorkflowRunId,
+	workflows: Workflows,
+	store: Store<WorkflowState>
+) {
 	const job = await workflows.status(id);
 
 	if (job instanceof Response) {
@@ -54,8 +58,13 @@ async function updateJobState(id: WorkflowRunId, workflows: Workflows, store: St
 
 	const state = completed ? State.success : State.loading;
 
-	store.update((x) => from(<WorkflowState>{
-		...x.value,
-		...job,
-	}, state));
+	store.update((x) =>
+		from(
+			<WorkflowState>{
+				...x.value,
+				...job
+			},
+			state
+		)
+	);
 }

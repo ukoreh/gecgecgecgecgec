@@ -1,9 +1,9 @@
 export type WorkflowRunId = number;
 
 export interface WorkflowInit {
-	runId: WorkflowRunId,
-	deployUrl: URL
-};
+	runId: WorkflowRunId;
+	deployUrl: URL;
+}
 
 export interface WorkflowJob {
 	run_url: string;
