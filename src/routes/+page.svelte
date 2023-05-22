@@ -117,11 +117,11 @@
 				{/if}
 
 				{#if shouldTransitionToInvalidRepoUrl}
-					<InvalidRepoUrlTransition message={$store.value.message} onTransitionEnd={() => {}} />
+					<InvalidRepoUrlTransition message={$store.value.message} />
 				{/if}
 
 				{#if shouldTransitionToUnknownError}
-					<UnknownErrorTransition onTransitionEnd={() => {}} />
+					<UnknownErrorTransition />
 				{/if}
 			</div>
 		</div>

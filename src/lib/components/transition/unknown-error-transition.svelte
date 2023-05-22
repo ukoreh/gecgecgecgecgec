@@ -3,8 +3,6 @@
 	import { elasticOut } from 'svelte/easing';
 	import { SadCat } from '../image';
 
-	export let onTransitionEnd: () => void;
-
 	let trigger: object;
 
 	onMount(() => (trigger = {}));
@@ -23,7 +21,7 @@
 </script>
 
 {#key trigger}
-	<div class="flex flex-col items-center" in:transition on:introend={onTransitionEnd}>
+	<div class="flex flex-col items-center" in:transition>
 		<SadCat />
 		<p class="text-lg text-center">Oh no, something went wrong :(</p>
 	</div>

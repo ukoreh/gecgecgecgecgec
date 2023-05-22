@@ -11,7 +11,7 @@ export interface WorkflowInitFailure {
 }
 
 export interface WorkflowStatusFailure {
-	status: number,
+	status: number;
 }
 
 export interface WorkflowJob {

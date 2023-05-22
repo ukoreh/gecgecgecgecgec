@@ -2,7 +2,7 @@
 	import { LL } from '@i18n';
 
 	export let onClick: () => void;
-	export let disabled: boolean = false;
+	export let disabled = false;
 </script>
 
 <button class="btn btn-primary" on:click={onClick} {disabled}>{$LL.deploy()}</button>

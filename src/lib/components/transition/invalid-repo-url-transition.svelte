@@ -3,8 +3,7 @@
 	import { elasticOut } from 'svelte/easing';
 	import { TiredCat } from '../image';
 
-	export let message: String;
-	export let onTransitionEnd: () => void;
+	export let message: string;
 
 	let trigger: object;
 
@@ -24,7 +23,7 @@
 </script>
 
 {#key trigger}
-	<div class="flex flex-col items-center" in:transition on:introend={onTransitionEnd}>
+	<div class="flex flex-col items-center" in:transition>
 		<TiredCat />
 		<p class="text-lg text-center">Sorry, we don't do business with non repository links!</p>
 		<p class="text-error text-center">({message})</p>

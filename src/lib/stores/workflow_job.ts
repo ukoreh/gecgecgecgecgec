@@ -1,7 +1,8 @@
 import {
 	hasJobCompleted,
 	isLeft,
-	type RepoUrl, type WorkflowInit,
+	type RepoUrl,
+	type WorkflowInit,
 	type WorkflowJob,
 	type WorkflowRunUrl,
 	unwrapLeft,
@@ -16,8 +17,8 @@ export const WorkflowJobStore = createWorkflowJobStore();
 type WorkflowStateFailureReason = 'invalid-repo-url' | 'unknown-error';
 
 type WorkflowStateFailure = {
-	reason: WorkflowStateFailureReason,
-	message: string,
+	reason: WorkflowStateFailureReason;
+	message: string;
 };
 
 type WorkflowState = WorkflowJob & WorkflowInit & WorkflowStateFailure;
@@ -41,17 +42,21 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 
 	const init = await workflows.trigger(url);
 
-	console.log(init)
+	console.log(init);
 
 	if (isLeft(init)) {
 		const value = unwrapLeft(init);
 
-		const reason: WorkflowStateFailureReason = value.status === 400 ? 'invalid-repo-url' : 'unknown-error';
+		const reason: WorkflowStateFailureReason =
+			value.status === 400 ? 'invalid-repo-url' : 'unknown-error';
 
-		const state = from(<WorkflowState>{
-			reason: reason,
-			message: value.message
-		}, State.failure);
+		const state = from(
+			<WorkflowState>{
+				reason: reason,
+				message: value.message
+			},
+			State.failure
+		);
 
 		return store.set(state);
 	}
@@ -63,10 +68,13 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 	if (isLeft(job)) {
 		const value = unwrapLeft(init);
 
-		const state = from(<WorkflowState>{
-			reason: 'unknown-error',
-			message: value.message
-		}, State.failure);
+		const state = from(
+			<WorkflowState>{
+				reason: 'unknown-error',
+				message: value.message
+			},
+			State.failure
+		);
 
 		return store.set(state);
 	}
