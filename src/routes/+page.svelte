@@ -19,7 +19,7 @@
 
 	const store = WorkflowJobStore;
 
-	let visibility = true;
+	let visibility = false;
 
 	let url: string;
 
