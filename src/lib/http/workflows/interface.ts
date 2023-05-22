@@ -1,6 +1,6 @@
-import type { RepoUrl, WorkflowInit, WorkflowJob, WorkflowRunUrl } from '@models';
+import type { Either, RepoUrl, WorkflowInit, WorkflowInitFailure, WorkflowJob, WorkflowRunUrl, WorkflowStatusFailure } from '@models';
 
 export interface Workflows {
-	trigger(url: RepoUrl): Promise<WorkflowInit | Response>;
-	status(id: WorkflowRunUrl): Promise<WorkflowJob | Response>;
+	trigger(url: RepoUrl): Promise<Either<WorkflowInitFailure, WorkflowInit>>;
+	status(id: WorkflowRunUrl): Promise<Either<WorkflowStatusFailure, WorkflowJob>>;
 }

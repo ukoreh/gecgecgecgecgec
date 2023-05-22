@@ -1,11 +1,11 @@
-import type { RepoUrl, WorkflowInit, WorkflowJob, WorkflowRunUrl } from '@models';
+import { right, type Either, type RepoUrl, type WorkflowInit, type WorkflowInitFailure, type WorkflowJob, type WorkflowRunUrl, type WorkflowStatusFailure, left } from '@models';
 import type { Workflows } from './interface';
 import { repoUrlHeader, type FoldClient } from '../client';
 
 export class FolderWorkflowsImpl implements Workflows {
-	public constructor(private readonly workerClient: FoldClient) {}
+	public constructor(private readonly workerClient: FoldClient) { }
 
-	async trigger(url: RepoUrl): Promise<WorkflowInit | Response> {
+	async trigger(url: RepoUrl): Promise<Either<WorkflowInitFailure, WorkflowInit>> {
 		console.info(`triggering deploy of repo with url = ${url}`);
 
 		const headers = new Headers();
@@ -14,19 +14,22 @@ export class FolderWorkflowsImpl implements Workflows {
 		const response = await this.workerClient.get('/', undefined, headers);
 		const json = await response.json();
 
-		console.log(json);
-		console.log();
-
 		if (response.ok) {
-			return <WorkflowInit>{
-				...json
-			};
-		}
+			return right<WorkflowInit>(
+				{
+					...json
+				}
+			)
+		};
 
-		return response;
+		return left<WorkflowInitFailure>(
+			{
+				...json,
+			}
+		);
 	}
 
-	async status(url: WorkflowRunUrl): Promise<WorkflowJob | Response> {
+	async status(url: WorkflowRunUrl): Promise<Either<WorkflowStatusFailure, WorkflowJob>> {
 		console.info(`getting status of workflow with url = ${url}`);
 
 		const response = await fetch('https://relay-worker.bolinhas-hihi.workers.dev', {
@@ -38,11 +41,17 @@ export class FolderWorkflowsImpl implements Workflows {
 		if (response.ok) {
 			const json = await response.json();
 
-			return <WorkflowJob>{
-				...json.jobs[0]
-			};
+			return right<WorkflowJob>(
+				{
+					...json.jobs[0]
+				}
+			);
 		}
 
-		return response;
+		return left<WorkflowStatusFailure>(
+			{
+				status: response.status,
+			}
+		);
 	}
 }
