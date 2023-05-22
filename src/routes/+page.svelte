@@ -88,7 +88,7 @@
 				{#if shouldFocusDropInput}
 					<AnimatedPointRight />
 				{/if}
-				<DropInput bind:value={url} />
+				<DropInput bind:value={url} disabled={$store.loading} />
 			</form>
 
 			<div class="flex flex-col items-center">
@@ -98,10 +98,10 @@
 					{/if}
 
 					{#if canShowTriggerDeployButton}
-						<TriggerDeployButton onClick={triggerWorkflow} />
+						<TriggerDeployButton onClick={triggerWorkflow} disabled={$store.loading} />
 					{/if}
 				</div>
-				{#if $store.loading || $store.success}
+				{#if $store.success || ($store.loading && $store.value.steps)}
 					<div class="pt-4">
 						<WorkflowStatusDivider />
 						<WorkflowJobStatusStepper steps={$store.value.steps} />
@@ -110,6 +110,10 @@
 					{#if $store.success}
 						<DeployLink url={$store.value.deployUrl} />
 					{/if}
+				{:else if $store.loading}
+					<div class="pt-8">
+						<div class="spinner-circle" />
+					</div>
 				{/if}
 
 				{#if shouldTransitionToInvalidRepoUrl}

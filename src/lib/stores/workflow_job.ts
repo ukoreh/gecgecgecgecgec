@@ -35,6 +35,10 @@ function createWorkflowJobStore() {
 }
 
 async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<WorkflowState>) {
+	let state = from(<WorkflowState>{}, State.loading);
+
+	store.set(state);
+
 	const init = await workflows.trigger(url);
 
 	console.log(init)
@@ -69,7 +73,7 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 
 	setInterval(() => updateJobState(value.runUrl, workflows, store), 6000);
 
-	const state = from(<WorkflowState>{ ...unwrapRight(job), ...value }, State.loading);
+	state = from(<WorkflowState>{ ...unwrapRight(job), ...value }, State.loading);
 
 	return store.set(state);
 }
