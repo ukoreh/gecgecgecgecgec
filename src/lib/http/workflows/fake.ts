@@ -1,9 +1,13 @@
 import {
 	isRunning,
+	type Either,
 	type RepoUrl,
 	type WorkflowInit,
+	type WorkflowInitFailure,
 	type WorkflowJob,
-	type WorkflowRunUrl
+	type WorkflowRunUrl,
+	type WorkflowStatusFailure,
+	type Right
 } from '@models';
 import type { Workflows } from './interface';
 
@@ -55,7 +59,7 @@ export class FakeWorkflowsImpl implements Workflows {
 		]
 	};
 
-	trigger(url: RepoUrl): Promise<WorkflowInit | Response> {
+	trigger(url: RepoUrl): Promise<Either<WorkflowInitFailure, WorkflowInit>> {
 		console.info(`faking init of build workflow with url = ${url}`);
 
 		const init = <WorkflowInit>{
@@ -65,16 +69,16 @@ export class FakeWorkflowsImpl implements Workflows {
 			)
 		};
 
-		return Promise.resolve(init);
+		return Promise.resolve(<Right<WorkflowInit>>{ value: init });
 	}
 
-	status(id: WorkflowRunUrl): Promise<WorkflowJob | Response> {
+	status(id: WorkflowRunUrl): Promise<Either<WorkflowStatusFailure, WorkflowJob>> {
 		console.info(`faking completion of workflow with run id = ${id}`);
 
 		const lastRunning = this.job.steps.findLast((x) => isRunning(x));
 
 		if (lastRunning == null) {
-			return Promise.resolve(this.job);
+			return Promise.resolve(<Right<WorkflowJob>>{ value: this.job });
 		}
 
 		const nextJobIndex = this.job.steps.indexOf(lastRunning) + 1;
@@ -85,6 +89,6 @@ export class FakeWorkflowsImpl implements Workflows {
 
 		lastRunning.status = 'completed';
 
-		return Promise.resolve(this.job);
+		return Promise.resolve(<Right<WorkflowJob>>{ value: this.job });
 	}
 }

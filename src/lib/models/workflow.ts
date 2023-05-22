@@ -5,6 +5,15 @@ export interface WorkflowInit {
 	deployUrl: URL;
 }
 
+export interface WorkflowInitFailure {
+	status: number;
+	message: string;
+}
+
+export interface WorkflowStatusFailure {
+	status: number;
+}
+
 export interface WorkflowJob {
 	run_url: string;
 	name: string;
