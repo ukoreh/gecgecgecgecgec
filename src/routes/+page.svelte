@@ -4,8 +4,10 @@
 		DeployLink,
 		DropInput,
 		IntroTransition,
+		InvalidRepoUrlTransition,
 		TriggerDeployButton,
 		UkorehWizardCat,
+		UnknownErrorTransition,
 		WorkflowJobStatusStepper,
 		WorkflowStatusDivider
 	} from '@components';
@@ -13,25 +15,39 @@
 	import { LL } from '@i18n';
 	import { createRepoUrl } from '@models';
 
+	type StepsState = 'input' | 'deploy-button' | 'stepper';
+
 	const store = WorkflowJobStore;
 
 	let visibility = true;
 
 	let url: string;
 
+	let currentState: StepsState = 'input';
+
 	$: repoUrl = createRepoUrl(url);
 
-	let shouldFocusDropInput = true;
-	let shouldFocusTriggerDeployButton = false;
-
 	$: {
-		shouldFocusDropInput = !repoUrl;
-		shouldFocusTriggerDeployButton = !shouldFocusDropInput;
+		if (repoUrl) {
+			currentState = 'deploy-button';
+		} else {
+			currentState = 'input';
+		}
 	}
+
+	let shouldTransitionToInvalidRepoUrl = false;
+	let shouldTransitionToUnknownError = false;
+
+	$: shouldFocusDropInput = currentState === 'input';
+	$: shouldFocusTriggerDeployButton = currentState === 'deploy-button';
+	$: canShowTriggerDeployButton = repoUrl;
 
 	function triggerWorkflow() {
 		if (repoUrl) {
-			shouldFocusTriggerDeployButton = false;
+			shouldTransitionToInvalidRepoUrl = false;
+			shouldTransitionToUnknownError = false;
+
+			currentState = 'stepper';
 
 			store.trigger(repoUrl);
 		}
@@ -40,6 +56,18 @@
 	function onTransitionEnd() {
 		visibility = true;
 	}
+
+	store.subscribe(function (state) {
+		if (state.failure) {
+			if (state.value.reason === 'invalid-repo-url') {
+				shouldTransitionToInvalidRepoUrl = true;
+				currentState = 'input';
+			} else {
+				shouldTransitionToUnknownError = true;
+				currentState = currentState === 'stepper' ? 'deploy-button' : 'input';
+			}
+		}
+	});
 </script>
 
 <div class="cursor-wand flex flex-col h-screen">
@@ -69,7 +97,9 @@
 						<AnimatedPointRight />
 					{/if}
 
-					<TriggerDeployButton onClick={triggerWorkflow} />
+					{#if canShowTriggerDeployButton}
+						<TriggerDeployButton onClick={triggerWorkflow} />
+					{/if}
 				</div>
 				{#if $store.loading || $store.success}
 					<div class="pt-4">
@@ -80,6 +110,14 @@
 					{#if $store.success}
 						<DeployLink url={$store.value.deployUrl} />
 					{/if}
+				{/if}
+
+				{#if shouldTransitionToInvalidRepoUrl}
+					<InvalidRepoUrlTransition message={$store.value.message} onTransitionEnd={() => {}} />
+				{/if}
+
+				{#if shouldTransitionToUnknownError}
+					<UnknownErrorTransition onTransitionEnd={() => {}} />
 				{/if}
 			</div>
 		</div>
