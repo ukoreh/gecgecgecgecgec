@@ -1,8 +1,9 @@
 export type WorkflowRunUrl = string;
+export type DeployUrl = string;
 
 export interface WorkflowInit {
 	runUrl: WorkflowRunUrl;
-	deployUrl: URL;
+	deployUrl: DeployUrl;
 }
 
 export interface WorkflowInitFailure {
