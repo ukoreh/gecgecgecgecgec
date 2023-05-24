@@ -79,9 +79,17 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 		return store.set(state);
 	}
 
-	setInterval(() => updateJobState(value.runUrl, workflows, store), 6000);
+	const callbackId = setInterval(() => updateJobState(value.runUrl, workflows, store), 6000);
 
 	state = from(<WorkflowState>{ ...unwrapRight(job), ...value }, State.loading);
+
+	store.subscribe(
+		function (state) {
+			if (state.success || state.failure) {
+				clearInterval(callbackId);
+			}
+		}
+	);
 
 	return store.set(state);
 }
@@ -107,7 +115,7 @@ async function updateJobState(
 		from(
 			<WorkflowState>{
 				...x.value,
-				...job
+				...value
 			},
 			state
 		)
