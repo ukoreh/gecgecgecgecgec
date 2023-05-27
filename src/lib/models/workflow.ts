@@ -1,14 +1,15 @@
 export type WorkflowRunUrl = string;
 export type DeployUrl = string;
 
-type StepStatus = "queued" | "in_progress" | "completed" | "pending";
-type StepConclusion = "success" |
-	"failure" |
-	"neutral" |
-	"cancelled" |
-	"skipped" |
-	"timed_out" |
-	"action_required";
+type StepStatus = 'queued' | 'in_progress' | 'completed' | 'pending';
+type StepConclusion =
+	| 'success'
+	| 'failure'
+	| 'neutral'
+	| 'cancelled'
+	| 'skipped'
+	| 'timed_out'
+	| 'action_required';
 
 export interface WorkflowInit {
 	runUrl: WorkflowRunUrl;

@@ -83,13 +83,11 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 
 	state = from(<WorkflowState>{ ...unwrapRight(job), ...value }, State.loading);
 
-	store.subscribe(
-		function (state) {
-			if (state.success || state.failure) {
-				clearInterval(callbackId);
-			}
+	store.subscribe(function (state) {
+		if (state.success || state.failure) {
+			clearInterval(callbackId);
 		}
-	);
+	});
 
 	return store.set(state);
 }
