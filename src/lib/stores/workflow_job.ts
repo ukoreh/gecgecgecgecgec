@@ -6,7 +6,8 @@ import {
 	type WorkflowJob,
 	type WorkflowRunUrl,
 	unwrapLeft,
-	unwrapRight
+	unwrapRight,
+	hasJobFailed
 } from '@models';
 import { createStore, type Store } from './store';
 import { FoldClient, FolderWorkflowsImpl, type Workflows } from '@http';
@@ -107,7 +108,13 @@ async function updateJobState(
 
 	const completed = hasJobCompleted(value);
 
-	const state = completed ? State.success : State.loading;
+	let state = State.loading;
+
+	if (completed) {
+		const failed = hasJobFailed(value);
+
+		state = failed ? State.failure : State.success;
+	}
 
 	store.update((x) =>
 		from(
