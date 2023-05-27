@@ -63,7 +63,11 @@ export function hasFinished(step: WorkflowJobStep) {
 }
 
 export function hasFailed(step: WorkflowJobStep) {
-	return step.conclusion === 'failure' || step.conclusion === 'timed_out' || step.conclusion === 'cancelled';
+	return (
+		step.conclusion === 'failure' ||
+		step.conclusion === 'timed_out' ||
+		step.conclusion === 'cancelled'
+	);
 }
 
 export function wasSkipped(step: WorkflowJobStep) {
@@ -75,5 +79,7 @@ export function hasJobCompleted(job: WorkflowJob) {
 }
 
 export function hasJobFailed(job: WorkflowJob) {
-	return job.conclusion === 'failure' || job.conclusion === 'timed_out' || job.conclusion === 'cancelled';
+	return (
+		job.conclusion === 'failure' || job.conclusion === 'timed_out' || job.conclusion === 'cancelled'
+	);
 }
