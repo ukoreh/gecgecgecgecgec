@@ -1,6 +1,15 @@
 export type WorkflowRunUrl = string;
 export type DeployUrl = string;
 
+type StepStatus = "queued" | "in_progress" | "completed" | "pending";
+type StepConclusion = "success" |
+	"failure" |
+	"neutral" |
+	"cancelled" |
+	"skipped" |
+	"timed_out" |
+	"action_required";
+
 export interface WorkflowInit {
 	runUrl: WorkflowRunUrl;
 	deployUrl: DeployUrl;
@@ -23,8 +32,8 @@ export interface WorkflowJob {
 
 export interface WorkflowJobStep {
 	name: string;
-	status: string;
-	conclusion: string;
+	status: StepStatus;
+	conclusion: StepConclusion;
 	number: number;
 	started_at: string;
 	completed_at: string;
@@ -32,7 +41,7 @@ export interface WorkflowJobStep {
 
 // todo: passar para metodos da interface e depois adicionar funcao que cria essa interface com um json
 export function isRunning(step: WorkflowJobStep) {
-	return step.status === 'in_progress';
+	return step.status === 'in_progress' || step.status === 'pending';
 }
 
 export function hasFinished(step: WorkflowJobStep) {
