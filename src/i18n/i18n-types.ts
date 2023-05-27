@@ -30,6 +30,10 @@ type RootTranslation = {
 	 * W​o​r​k​f​l​o​w​ ​S​t​a​t​u​s
 	 */
 	workflowDividerLabel: string
+	/**
+	 * S​t​a​r​t​i​n​g​ ​d​e​p​l​o​y​ ​w​o​r​k​f​l​o​w​.​.​.
+	 */
+	startingWorkflow: string
 }
 
 export type TranslationFunctions = {
@@ -49,6 +53,10 @@ export type TranslationFunctions = {
 	 * Workflow Status
 	 */
 	workflowDividerLabel: () => LocalizedString
+	/**
+	 * Starting deploy workflow...
+	 */
+	startingWorkflow: () => LocalizedString
 }
 
 export type Formatters = {}
