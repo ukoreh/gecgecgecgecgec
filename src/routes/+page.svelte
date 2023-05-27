@@ -111,8 +111,10 @@
 						<DeployLink url={$store.value.deployUrl} />
 					{/if}
 				{:else if $store.loading}
-					<div class="pt-8">
+					<div class="pt-8" />
+					<div class="flex flex-col items-center">
 						<div class="spinner-circle" />
+						<p class="pt-2">{$LL.startingWorkflow()}</p>
 					</div>
 				{/if}
 

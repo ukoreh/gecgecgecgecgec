@@ -13,7 +13,7 @@
 				<h3>{step.name}</h3>
 			</li>
 		{:else if hasFinished(step)}
-			<li class="step step-primary step-done overflow-hidden">
+			<li class="step step-success step-done overflow-hidden">
 				<div class="step-circle">
 					<Checkmark />
 				</div>
