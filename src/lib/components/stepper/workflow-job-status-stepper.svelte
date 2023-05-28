@@ -6,7 +6,7 @@
 </script>
 
 <ol class="steps steps-vertical">
-	{#each steps as step}
+	{#each steps as step, index}
 		{#if isRunning(step)}
 			<li class="step step-primary step-active overflow-hidden">
 				<div class="spinner-simple" />
@@ -19,6 +19,17 @@
 				</div>
 				<h3>{step.name}</h3>
 			</li>
+			{#if step.logs}
+				<div class="px-8">
+					<div class="alert alert-error">
+						<div class="flex flex-col">
+							{#each step.logs as item}
+								<span class="text-content">{item}</span>
+							{/each}
+						</div>
+					</div>
+				</div>
+			{/if}
 		{:else if wasSkipped(step)}
 			<li class="step overflow-hidden">
 				<div class="step-circle">
@@ -35,7 +46,7 @@
 			</li>
 		{:else}
 			<li class="step step-primary step-done overflow-hidden">
-				<div class="step-circle">{steps.length + 1}</div>
+				<div class="step-circle">{index + 1}</div>
 				<h3>{step.name}</h3>
 			</li>
 		{/if}
