@@ -58,7 +58,7 @@
 	}
 
 	store.subscribe(function (state) {
-		if (state.failure) {
+		if (state.failure && state.value.reason) {
 			if (state.value.reason === 'invalid-repo-url') {
 				shouldTransitionToInvalidRepoUrl = true;
 				currentState = 'input';
@@ -101,7 +101,7 @@
 						<TriggerDeployButton onClick={triggerWorkflow} disabled={$store.loading} />
 					{/if}
 				</div>
-				{#if $store.success || ($store.loading && $store.value.steps)}
+				{#if $store.success || ($store.loading && $store.value.steps) || ($store.failure && $store.value.steps)}
 					<div class="pt-4">
 						<WorkflowStatusDivider />
 						<WorkflowJobStatusStepper steps={$store.value.steps} />

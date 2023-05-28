@@ -1,8 +1,20 @@
 export type WorkflowRunUrl = string;
 export type DeployUrl = string;
+export type WorkflowJobId = number;
 
 type StepStatus = 'queued' | 'in_progress' | 'completed' | 'pending';
 type StepConclusion =
+	| 'success'
+	| 'failure'
+	| 'neutral'
+	| 'cancelled'
+	| 'skipped'
+	| 'timed_out'
+	| 'action_required';
+
+type WorkflowJobStatus = 'queued' | 'in_progress' | 'completed' | 'pending';
+
+type WorkflowJobConclusion =
 	| 'success'
 	| 'failure'
 	| 'neutral'
@@ -25,9 +37,16 @@ export interface WorkflowStatusFailure {
 	status: number;
 }
 
+export interface WorkflowStepLogsFailure {
+	status: number;
+}
+
 export interface WorkflowJob {
+	conclusion: WorkflowJobConclusion;
 	run_url: string;
 	name: string;
+	id: WorkflowJobId;
+	status: WorkflowJobStatus;
 	steps: WorkflowJobStep[];
 }
 
@@ -38,6 +57,7 @@ export interface WorkflowJobStep {
 	number: number;
 	started_at: string;
 	completed_at: string;
+	logs: string[];
 }
 
 // todo: passar para metodos da interface e depois adicionar funcao que cria essa interface com um json
@@ -49,6 +69,24 @@ export function hasFinished(step: WorkflowJobStep) {
 	return step.status === 'completed';
 }
 
+export function hasFailed(step: WorkflowJobStep) {
+	return (
+		step.conclusion === 'failure' ||
+		step.conclusion === 'timed_out' ||
+		step.conclusion === 'cancelled'
+	);
+}
+
+export function wasSkipped(step: WorkflowJobStep) {
+	return step.conclusion === 'skipped';
+}
+
 export function hasJobCompleted(job: WorkflowJob) {
-	return job.steps[job.steps.length - 1].status === 'completed';
+	return job.status === 'completed';
+}
+
+export function hasJobFailed(job: WorkflowJob) {
+	return (
+		job.conclusion === 'failure' || job.conclusion === 'timed_out' || job.conclusion === 'cancelled'
+	);
 }

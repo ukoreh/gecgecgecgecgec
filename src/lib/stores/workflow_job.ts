@@ -6,7 +6,9 @@ import {
 	type WorkflowJob,
 	type WorkflowRunUrl,
 	unwrapLeft,
-	unwrapRight
+	unwrapRight,
+	hasJobFailed,
+	hasFailed
 } from '@models';
 import { createStore, type Store } from './store';
 import { FoldClient, FolderWorkflowsImpl, type Workflows } from '@http';
@@ -14,10 +16,16 @@ import { State, from } from './state';
 
 export const WorkflowJobStore = createWorkflowJobStore();
 
-type WorkflowStateFailureReason = 'invalid-repo-url' | 'unknown-error';
+const logsPrefixRegex =
+	/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z) /g;
+
+const endGroupSectionRegex = /##\[endgroup\]/g;
+const errorSectionRegex = /##\[error\]/g;
+
+type WorkflowStatestepFailureReason = 'invalid-repo-url' | 'unknown-error';
 
 type WorkflowStateFailure = {
-	reason: WorkflowStateFailureReason;
+	reason: WorkflowStatestepFailureReason;
 	message: string;
 };
 
@@ -47,7 +55,7 @@ async function triggerBuildJob(url: RepoUrl, workflows: Workflows, store: Store<
 	if (isLeft(init)) {
 		const value = unwrapLeft(init);
 
-		const reason: WorkflowStateFailureReason =
+		const reason: WorkflowStatestepFailureReason =
 			value.status === 400 ? 'invalid-repo-url' : 'unknown-error';
 
 		const state = from(
@@ -107,7 +115,13 @@ async function updateJobState(
 
 	const completed = hasJobCompleted(value);
 
-	const state = completed ? State.success : State.loading;
+	let state = State.loading;
+
+	if (completed) {
+		const failed = hasJobFailed(value);
+
+		state = failed ? State.failure : State.success;
+	}
 
 	store.update((x) =>
 		from(
@@ -118,4 +132,42 @@ async function updateJobState(
 			state
 		)
 	);
+
+	if (state === State.failure) {
+		const logsTry = await workflows.logs(value.id);
+
+		if (isLeft(logsTry)) {
+			return;
+		}
+
+		const logs = unwrapRight(logsTry);
+
+		const failureLogs =
+			logs
+				.split(endGroupSectionRegex)
+				.findLast((x) => x)
+				?.split(errorSectionRegex)
+				?.find((x) => x)
+				?.replaceAll(logsPrefixRegex, '> ')
+				?.split('\n') ?? [];
+
+		store.update(function (x) {
+			const job = x.value;
+
+			job.steps = job.steps.map(function (step) {
+				if (hasFailed(step)) {
+					step.logs = failureLogs;
+				}
+
+				return step;
+			});
+
+			return from(
+				<WorkflowState>{
+					...job
+				},
+				state
+			);
+		});
+	}
 }
