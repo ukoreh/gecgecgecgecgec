@@ -154,15 +154,13 @@ async function updateJobState(
 		store.update(function (x) {
 			const job = x.value;
 
-			job.steps = job.steps.map(
-				function (step) {
-					if (hasFailed(step)) {
-						step.logs = failureLogs;
-					}
-
-					return step;
+			job.steps = job.steps.map(function (step) {
+				if (hasFailed(step)) {
+					step.logs = failureLogs;
 				}
-			);
+
+				return step;
+			});
 
 			return from(
 				<WorkflowState>{
