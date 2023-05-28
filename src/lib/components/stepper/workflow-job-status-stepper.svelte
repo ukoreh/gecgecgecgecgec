@@ -1,19 +1,32 @@
 <script lang="ts">
 	import { hasFailed, hasFinished, isRunning, wasSkipped, type WorkflowJobStep } from '@models';
 	import { Checkmark, Cross, Minus } from '../icon';
+	import { afterUpdate } from 'svelte';
 
 	export let steps: WorkflowJobStep[];
+
+	let activeStepElement: HTMLElement;
+
+	function scrollToActiveStep() {
+		if (activeStepElement) {
+			activeStepElement.scrollIntoView({
+				behavior: 'smooth'
+			});
+		}
+	}
+
+	afterUpdate(scrollToActiveStep);
 </script>
 
 <ol class="steps steps-vertical">
 	{#each steps as step, index}
 		{#if isRunning(step)}
-			<li class="step step-primary step-active overflow-hidden">
+			<li class="step step-primary step-active overflow-hidden" bind:this={activeStepElement}>
 				<div class="spinner-simple" />
 				<h3>{step.name}</h3>
 			</li>
 		{:else if hasFailed(step)}
-			<li class="step step-error step-done overflow-hidden">
+			<li class="step step-error step-done overflow-hidden" bind:this={activeStepElement}>
 				<div class="step-circle">
 					<Cross />
 				</div>
