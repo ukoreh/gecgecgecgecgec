@@ -26,7 +26,8 @@ const config = {
 			'@http': path.resolve('./src/lib/http/index.ts'),
 			'@models': path.resolve('./src/lib/models/index.ts'),
 			'@stores': path.resolve('./src/lib/stores/index.ts'),
-			'@i18n': path.resolve('./src/i18n/index.ts')
+			'@i18n': path.resolve('./src/i18n/index.ts'),
+			'@media-query': path.resolve('./src/lib/media-query/index.ts')
 		}
 	}
 };
