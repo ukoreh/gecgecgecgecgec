@@ -7,10 +7,12 @@ import {
 	type WorkflowJob,
 	type WorkflowRunUrl,
 	type WorkflowStatusFailure,
-	left
+	left,
+	type WorkflowStepLogsFailure,
+	type WorkflowJobId
 } from '@models';
 import type { Workflows } from './interface';
-import { repoUrlHeader, type FoldClient } from '../client';
+import { repoUrlHeader, type FoldClient, downloadLogsHeader, jobIdHeader } from '../client';
 
 export class FolderWorkflowsImpl implements Workflows {
 	public constructor(private readonly workerClient: FoldClient) {}
@@ -53,6 +55,26 @@ export class FolderWorkflowsImpl implements Workflows {
 		}
 
 		return left<WorkflowStatusFailure>({
+			status: response.status
+		});
+	}
+
+	async logs(id: WorkflowJobId): Promise<Either<WorkflowStepLogsFailure, string>> {
+		console.info(`getting latest failed step reason for job with id = ${id}`);
+
+		const headers = new Headers();
+		headers.set(downloadLogsHeader, 'true');
+		headers.set(jobIdHeader, id.toString());
+
+		const response = await this.workerClient.get('/', undefined, headers);
+
+		if (response.ok) {
+			const logs = await response.text();
+
+			return right<string>(logs);
+		}
+
+		return left<WorkflowStepLogsFailure>({
 			status: response.status
 		});
 	}

@@ -7,7 +7,8 @@ import {
 	type WorkflowJob,
 	type WorkflowRunUrl,
 	type WorkflowStatusFailure,
-	type Right
+	type Right,
+	type WorkflowStepLogsFailure
 } from '@models';
 import type { Workflows } from './interface';
 
@@ -89,5 +90,11 @@ export class FakeWorkflowsImpl implements Workflows {
 		lastRunning.status = 'completed';
 
 		return Promise.resolve(<Right<WorkflowJob>>{ value: this.job });
+	}
+
+	logs(id: number): Promise<Either<WorkflowStepLogsFailure, string>> {
+		console.info(`faking get of latest step failure reason with job id = ${id}`);
+
+		return Promise.resolve(<Right<string>>{ value: 'something went wrong!!!1' });
 	}
 }
