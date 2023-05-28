@@ -39,7 +39,8 @@ function createWorkflowJobStore() {
 
 	return {
 		subscribe,
-		trigger: (url: RepoUrl) => triggerBuildJob(url, workflows, store)
+		trigger: (url: RepoUrl) => triggerBuildJob(url, workflows, store),
+		randomLink: () => sampleRandomLink()
 	};
 }
 
@@ -170,4 +171,16 @@ async function updateJobState(
 			);
 		});
 	}
+}
+
+function sampleRandomLink(): string {
+	const links = [
+		'https://github.com/freitas-labs/flutter-extended-image-crop-info-callback-spike',
+		'https://github.com/KensukePark/Cryptocurrency_Wallet_App',
+		'https://github.com/LezdCS/irl-link',
+		'https://github.com/FCT-LOLU/smartshoeapp',
+		'https://github.com/beratergnn/flutter_weather_app'
+	];
+
+	return links[Math.floor(Math.random() * links.length)];
 }

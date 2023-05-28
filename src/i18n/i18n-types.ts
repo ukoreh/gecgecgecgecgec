@@ -34,6 +34,10 @@ type RootTranslation = {
 	 * S​t​a​r​t​i​n​g​ ​d​e​p​l​o​y​ ​w​o​r​k​f​l​o​w​.​.​.
 	 */
 	startingWorkflow: string
+	/**
+	 * I​'​m​ ​f​e​e​l​i​n​g​ ​l​u​c​k​y​ ​�​�
+	 */
+	feelingLucky: string
 }
 
 export type TranslationFunctions = {
@@ -57,6 +61,10 @@ export type TranslationFunctions = {
 	 * Starting deploy workflow...
 	 */
 	startingWorkflow: () => LocalizedString
+	/**
+	 * I'm feeling lucky 🤞
+	 */
+	feelingLucky: () => LocalizedString
 }
 
 export type Formatters = {}
