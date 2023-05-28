@@ -1,8 +1,10 @@
 <script lang="ts">
 	import {
 		AnimatedPointRight,
+		Checkmark,
 		DeployLink,
 		DropInput,
+		FeelingLuckyButton,
 		IntroTransition,
 		InvalidRepoUrlTransition,
 		TriggerDeployButton,
@@ -37,20 +39,29 @@
 
 	let shouldTransitionToInvalidRepoUrl = false;
 	let shouldTransitionToUnknownError = false;
+	let shouldTransitionToTypewriterEffect = false;
 
 	$: shouldFocusDropInput = currentState === 'input';
 	$: shouldFocusTriggerDeployButton = currentState === 'deploy-button';
 	$: canShowTriggerDeployButton = repoUrl;
+	$: canShowFeelingLuckyButton = !repoUrl;
 
 	function triggerWorkflow() {
 		if (repoUrl) {
 			shouldTransitionToInvalidRepoUrl = false;
 			shouldTransitionToUnknownError = false;
+			shouldTransitionToTypewriterEffect = false;
 
 			currentState = 'stepper';
 
 			store.trigger(repoUrl);
 		}
+	}
+
+	function useRandomSampleLink() {
+		shouldTransitionToTypewriterEffect = true;
+
+		url = store.randomLink();
 	}
 
 	function onTransitionEnd() {
@@ -88,11 +99,20 @@
 				{#if shouldFocusDropInput}
 					<AnimatedPointRight />
 				{/if}
-				<DropInput bind:value={url} disabled={$store.loading} />
+
+				<DropInput
+					bind:value={url}
+					bind:useTypewriterTransition={shouldTransitionToTypewriterEffect}
+					disabled={$store.loading}
+				/>
 			</form>
 
 			<div class="flex flex-col items-center">
 				<div class="pt-4 flex flex-row items-center">
+					{#if canShowFeelingLuckyButton}
+						<FeelingLuckyButton onClick={useRandomSampleLink} />
+					{/if}
+
 					{#if shouldFocusTriggerDeployButton}
 						<AnimatedPointRight />
 					{/if}
