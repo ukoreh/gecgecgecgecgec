@@ -40,7 +40,7 @@ function createWorkflowJobStore() {
 	return {
 		subscribe,
 		trigger: (url: RepoUrl) => triggerBuildJob(url, workflows, store),
-		randomLink: () => sampleRandomLink(),
+		randomLink: () => sampleRandomLink()
 	};
 }
 
@@ -182,5 +182,5 @@ function sampleRandomLink(): string {
 		'https://github.com/beratergnn/flutter_weather_app'
 	];
 
-	return links[Math.floor(Math.random() * links.length)]
+	return links[Math.floor(Math.random() * links.length)];
 }

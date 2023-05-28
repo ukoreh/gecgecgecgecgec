@@ -6,7 +6,7 @@ const pt = {
 	deploy: 'Deploy',
 	workflowDividerLabel: 'Estado do Workflow',
 	startingWorkflow: 'Iniciando o Workflow...',
-	feelingLucky: "Estou com pressa! 🏃",
+	feelingLucky: 'Estou com pressa! 🏃'
 } satisfies Translation;
 
 export default pt;

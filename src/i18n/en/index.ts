@@ -6,7 +6,7 @@ const en = {
 	deploy: 'Deploy',
 	workflowDividerLabel: 'Workflow Status',
 	startingWorkflow: 'Starting deploy workflow...',
-	feelingLucky: "I'm feeling lucky 🤞",
+	feelingLucky: "I'm feeling lucky 🤞"
 } satisfies BaseTranslation;
 
 export default en;

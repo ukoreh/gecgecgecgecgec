@@ -39,7 +39,7 @@
 
 	let shouldTransitionToInvalidRepoUrl = false;
 	let shouldTransitionToUnknownError = false;
-	let shouldTransitionToTypewriterEffect = false;
+	let useTypewriterTransition = false;
 
 	$: shouldFocusDropInput = currentState === 'input';
 	$: shouldFocusTriggerDeployButton = currentState === 'deploy-button';
@@ -50,7 +50,7 @@
 		if (repoUrl) {
 			shouldTransitionToInvalidRepoUrl = false;
 			shouldTransitionToUnknownError = false;
-			shouldTransitionToTypewriterEffect = false;
+			useTypewriterTransition = false;
 
 			currentState = 'stepper';
 
@@ -59,7 +59,7 @@
 	}
 
 	function useRandomSampleLink() {
-		shouldTransitionToTypewriterEffect = true;
+		useTypewriterTransition = true;
 
 		url = store.randomLink();
 	}
@@ -100,11 +100,7 @@
 					<AnimatedPointRight />
 				{/if}
 
-				<DropInput
-					bind:value={url}
-					bind:useTypewriterTransition={shouldTransitionToTypewriterEffect}
-					disabled={$store.loading}
-				/>
+				<DropInput bind:value={url} bind:useTypewriterTransition disabled={$store.loading} />
 			</form>
 
 			<div class="flex flex-col items-center">
