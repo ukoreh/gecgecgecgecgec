@@ -1,7 +1,6 @@
 <script lang="ts">
 	import {
 		AnimatedPointRight,
-		Checkmark,
 		DeployLink,
 		DropInput,
 		FeelingLuckyButton,

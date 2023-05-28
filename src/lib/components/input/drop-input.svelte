@@ -3,7 +3,7 @@
 
 	export let value: string;
 	export let disabled = false;
-	export let useTypewriterTransition: boolean = false;
+	export let useTypewriterTransition = false;
 
 	function transition(input: HTMLInputElement) {
 		return typewriter(input, value);
