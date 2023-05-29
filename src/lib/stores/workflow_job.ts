@@ -23,7 +23,7 @@ const endGroupSectionRegex = /##\[endgroup\]/g;
 const errorSectionRegex = /##\[error\]/g;
 
 // eslint-disable-next-line no-control-regex
-const nonAsciiRegex = /^\x00-\x7F]/g
+const nonAsciiRegex = /^\x00-\x7F]/g;
 
 type WorkflowStatestepFailureReason = 'invalid-repo-url' | 'unknown-error';
 
