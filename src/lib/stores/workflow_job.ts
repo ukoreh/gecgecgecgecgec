@@ -22,6 +22,9 @@ const logsPrefixRegex =
 const endGroupSectionRegex = /##\[endgroup\]/g;
 const errorSectionRegex = /##\[error\]/g;
 
+// eslint-disable-next-line no-control-regex
+const nonAsciiRegex = /^\x00-\x7F]/g;
+
 type WorkflowStatestepFailureReason = 'invalid-repo-url' | 'unknown-error';
 
 type WorkflowStateFailure = {
@@ -149,6 +152,7 @@ async function updateJobState(
 				.findLast((x) => x)
 				?.split(errorSectionRegex)
 				?.find((x) => x)
+				?.replaceAll(nonAsciiRegex, '')
 				?.replaceAll(logsPrefixRegex, '> ')
 				?.split('\n') ?? [];
 
