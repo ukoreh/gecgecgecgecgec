@@ -4,10 +4,10 @@
 		DeployLink,
 		DropInput,
 		FeelingLuckyButton,
+		Footer,
 		IntroTransition,
 		InvalidRepoUrlTransition,
 		TriggerDeployButton,
-		UkorehWizardCat,
 		UnknownErrorTransition,
 		WorkflowJobStatusStepper,
 		WorkflowStatusDivider
@@ -44,6 +44,10 @@
 	$: shouldFocusTriggerDeployButton = currentState === 'deploy-button';
 	$: canShowTriggerDeployButton = repoUrl;
 	$: canShowFeelingLuckyButton = !repoUrl;
+	$: canShowStepper =
+		$store.success ||
+		($store.loading && $store.value.steps) ||
+		($store.failure && $store.value.steps);
 
 	function triggerWorkflow() {
 		if (repoUrl) {
@@ -116,7 +120,7 @@
 						<TriggerDeployButton onClick={triggerWorkflow} disabled={$store.loading} />
 					{/if}
 				</div>
-				{#if $store.success || ($store.loading && $store.value.steps) || ($store.failure && $store.value.steps)}
+				{#if canShowStepper}
 					<div class="pt-4">
 						<WorkflowStatusDivider />
 						<WorkflowJobStatusStepper steps={$store.value.steps} />
@@ -143,10 +147,10 @@
 			</div>
 		</div>
 
-		<footer>
-			<div class="flex justify-center sm:justify-end">
-				<UkorehWizardCat />
-			</div>
-		</footer>
+		{#if canShowStepper}
+			<WorkflowStatusDivider includeLabel={false} />
+		{/if}
+
+		<Footer />
 	{/if}
 </div>
