@@ -4,8 +4,8 @@
 	export let includeSelfSpace = true;
 </script>
 
-<span class="point-animation-right">👉</span>
+<span class="point-animation-down">👇</span>
 
 {#if includeSelfSpace}
-	<div class="w-4" />
+	<div class="h-4" />
 {/if}
