@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { LL } from '@i18n';
 
-	export let includeLabel: boolean = true;
+	export let includeLabel = true;
 </script>
 
 <div class="divider divider-horizontal">

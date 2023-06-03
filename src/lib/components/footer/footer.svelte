@@ -1,6 +1,5 @@
 <script>
 	import { Devto, Octocat, RippleUI } from '../icon';
-	import { UkorehWizardCat } from '../image';
 </script>
 
 <footer class="isolate">

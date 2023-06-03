@@ -8,7 +8,6 @@
 		IntroTransition,
 		InvalidRepoUrlTransition,
 		TriggerDeployButton,
-		UkorehWizardCat,
 		UnknownErrorTransition,
 		WorkflowJobStatusStepper,
 		WorkflowStatusDivider
