@@ -15,11 +15,11 @@ export type Translations = RootTranslation
 
 type RootTranslation = {
 	/**
-	 * �​�​ ​U​k​o​r​e​h​ ​�​�
+	 * �​�​‍​♂​️​ ​U​k​o​r​e​h​ ​�​�​‍​♂​️
 	 */
 	title: string
 	/**
-	 * D​r​o​p​ ​a​n​y​ ​F​l​u​t​t​e​r​ ​p​r​o​j​e​c​t​ ​l​i​n​k​ ​a​n​d​ ​s​e​e​ ​t​h​e​ ​m​a​g​i​c​ ​h​a​p​p​e​n​!
+	 * D​e​p​l​o​y​ ​a​n​y​ ​F​l​u​t​t​e​r​ ​p​r​o​j​e​c​t​ ​a​s​ ​a​ ​w​e​b​ ​a​p​p​ ​a​t​ ​t​h​e​ ​d​i​s​t​a​n​c​e​ ​o​f​ ​a​ ​c​l​i​c​k​!
 	 */
 	description: string
 	/**
@@ -42,11 +42,11 @@ type RootTranslation = {
 
 export type TranslationFunctions = {
 	/**
-	 * 🪄 Ukoreh 🪄
+	 * 🧙‍♂️ Ukoreh 🧙‍♂️
 	 */
 	title: () => LocalizedString
 	/**
-	 * Drop any Flutter project link and see the magic happen!
+	 * Deploy any Flutter project as a web app at the distance of a click!
 	 */
 	description: () => LocalizedString
 	/**
