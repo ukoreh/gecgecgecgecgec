@@ -1,7 +1,7 @@
 import type { BaseTranslation } from '../i18n-types';
 
 const en = {
-	title: '🪄 Ukoreh 🪄',
+	title: '🧙‍♂️ Ukoreh 🧙‍♂️',
 	description: 'Deploy any Flutter project as a web app at the distance of a click!',
 	deploy: 'Deploy',
 	workflowDividerLabel: 'Workflow Status',
