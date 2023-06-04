@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { elasticOut } from 'svelte/easing';
-	import { TiredCat } from '../image';
+	import { RandomCatGIF, TiredCat } from '../image';
 
 	export let message: string;
 
@@ -24,8 +24,9 @@
 
 {#key trigger}
 	<div class="flex flex-col items-center" in:transition>
-		<TiredCat />
+		<RandomCatGIF />
 		<p class="text-lg text-center">Sorry, we don't do business with non repository links!</p>
 		<p class="text-error text-center">({message})</p>
+		<p class="text-lg text-center">Anyway's, here's a cat gif for you.</p>
 	</div>
 {/key}

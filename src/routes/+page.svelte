@@ -138,6 +138,7 @@
 				{/if}
 
 				{#if shouldTransitionToInvalidRepoUrl}
+					<div class="pt-4" />
 					<InvalidRepoUrlTransition message={$store.value.message} />
 				{/if}
 
