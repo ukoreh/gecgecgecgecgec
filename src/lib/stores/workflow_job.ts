@@ -195,7 +195,6 @@ function sampleRandomLink(): string {
 		'https://github.com/Jane-Mwangi/askAnything',
 		'https://github.com/hrithik-b/schoolwale',
 		''
-
 	];
 
 	return links[Math.floor(Math.random() * links.length)];
