@@ -180,10 +180,22 @@ async function updateJobState(
 function sampleRandomLink(): string {
 	const links = [
 		'https://github.com/freitas-labs/flutter-extended-image-crop-info-callback-spike',
-		'https://github.com/KensukePark/Cryptocurrency_Wallet_App',
-		'https://github.com/LezdCS/irl-link',
 		'https://github.com/FCT-LOLU/smartshoeapp',
-		'https://github.com/beratergnn/flutter_weather_app'
+		'https://github.com/abdulmoizshaikh/Flutter-project-2-quiz-app',
+		'https://github.com/KhongKevin/Carded_Mobile_Application',
+		'https://github.com/nimnagunasekera/To-Do-App',
+		'https://github.com/Pimbad/echo-store',
+		'https://github.com/KhongKevin/Carded_Mobile_Application',
+		'https://github.com/BenferhatAymen/Gamify-UI-App',
+		'https://github.com/Kashiwara0205/flutter_samples',
+		'https://github.com/whosjorge23/formula_one_calendar',
+		'https://github.com/codeforany/food_delivery_flutter_3_ui',
+		'https://github.com/musamairshad/Expense-Tracker-App',
+		'https://github.com/Jinwook-Song/flutter_animations',
+		'https://github.com/Jane-Mwangi/askAnything',
+		'https://github.com/hrithik-b/schoolwale',
+		''
+
 	];
 
 	return links[Math.floor(Math.random() * links.length)];
